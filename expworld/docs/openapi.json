@@ -1,0 +1,155 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Swagger Petstore - OpenAPI 3.0",
+        "description": "This is a sample Pet Store Server based on the OpenAPI 3.0 specification.  You can find out more about\nSwagger at [http://swagger.io](http://swagger.io). In the third iteration of the pet store, we've switched to the design first approach!\nYou can now help us improve the API whether it's by making changes to the definition itself or to the code.\nThat way, with time, we can improve the API in general, and expose some of the new features in OAS3.\n\nSome useful links:\n- [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)\n- [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "email": "apiteam@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.17"
+    },
+    "servers": [
+        {
+            "url": "/"
+        }
+    ],
+    "tags": [
+        {
+            "name": "query",
+            "description": "API queries based on city and optional country code."
+        }
+    ],
+    "paths": {
+        "/api/city": {
+            "get": {
+                "tags": [
+                    "query"
+                ],
+                "summary": "List cities and provinces",
+                "description": "Full listing of cities and their provinces for the database",
+                "operationId": "listCitiesAndDistricts",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "Error": {
+                                    "type": "string",
+                                    "enum": [
+                                        "true",
+                                        "false"
+                                    ]
+                                },
+                                "Message": {
+                                    "type": "string",
+                                    "enum": [
+                                        "Success",
+                                        "Failure"
+                                    ]
+                                },
+                                "City": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "district": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/city/update": {
+            "post": {
+                "tags": [
+                    "query"
+                ],
+                "summary": "Update city population",
+                "description": "Update the population of a city in the database",
+                "operationId": "updateCityPopulation",
+                "consumes": [
+                    "application/json"
+                ],
+                "requestBody": {
+                    "description": "City population update parameters",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "Name": {
+                                        "type": "string"
+                                    },
+                                    "CountryCode": {
+                                        "type": "string"
+                                    },
+                                    "Population": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "example": {
+                                    "Name": "Shanghai",
+                                    "CountryCode": "CHN",
+                                    "Population": 12345678
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful update",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
