@@ -9,7 +9,7 @@ module.exports = {
     host: '127.0.0.1',
     database: 'world',
     user: 'root',
-    // pwd for the virtual machine, account is cab230 to login
+    // pwd for the virtual machine, account name is cab230 to login
     // password: 'Cab230!' 
     password: 'Wsz20020325+++'
 
