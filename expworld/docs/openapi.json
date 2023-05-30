@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "Swagger Petstore - OpenAPI 3.0",
+        "title": "Swagger Movie - OpenAPI 3.0",
         "description": "This is a sample Pet Store Server based on the OpenAPI 3.0 specification.  You can find out more about\nSwagger at [http://swagger.io](http://swagger.io). In the third iteration of the pet store, we've switched to the design first approach!\nYou can now help us improve the API whether it's by making changes to the definition itself or to the code.\nThat way, with time, we can improve the API in general, and expose some of the new features in OAS3.\n\nSome useful links:\n- [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)\n- [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
@@ -25,6 +25,164 @@
         }
     ],
     "paths": {
+        "/users/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "User Login",
+                "description": "Login a user with email and password",
+                "operationId": "loginUser",
+                "consumes": [
+                    "application/json"
+                ],
+                "requestBody": {
+                    "description": "User registration parameters",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "email": "user@example.com",
+                                    "password": "password123"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful registration",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "User registration",
+                "description": "Register a new user with email and password",
+                "operationId": "registerUser",
+                "consumes": [
+                    "application/json"
+                ],
+                "requestBody": {
+                    "description": "User registration parameters",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "type": "string"
+                                    },
+                                    "dob": {
+                                        "type": "string"
+                                    },
+                                    "firstName": {
+                                        "type": "string"
+                                    },
+                                    "lastName": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "email": "user@example.com",
+                                    "firstName": "Shawn",
+                                    "lastName": "Mike",
+                                    "dob": "2022-5-20",
+                                    "address": "fake street No.1",
+                                    "password": "password123"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful registration",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/city": {
             "get": {
                 "tags": [
@@ -144,6 +302,115 @@
                             "properties": {
                                 "message": {
                                     "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/movie/ID/{imdbID}": {
+            "get": {
+                "tags": [
+                    "query"
+                ],
+                "summary": "List movies",
+                "description": "Get a list of movies",
+                "operationId": "listMovies",
+                "produces": [
+                    "application/json"
+                ],
+                "requestBody": {
+                    "description": "City population update parameters",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "imdbID": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "imdbID": "Shanghai"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "Error": {
+                                            "type": "boolean"
+                                        },
+                                        "Message": {
+                                            "type": "string"
+                                        },
+                                        "Movie": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "tconst": {
+                                                        "type": "string"
+                                                    },
+                                                    "titleType": {
+                                                        "type": "string"
+                                                    },
+                                                    "primaryTitle": {
+                                                        "type": "string"
+                                                    },
+                                                    "originalTitle": {
+                                                        "type": "string"
+                                                    },
+                                                    "year": {
+                                                        "type": "integer"
+                                                    },
+                                                    "runtimeMinutes": {
+                                                        "type": "integer"
+                                                    },
+                                                    "genres": {
+                                                        "type": "string"
+                                                    },
+                                                    "country": {
+                                                        "type": "string"
+                                                    },
+                                                    "poster": {
+                                                        "type": "string",
+                                                        "format": "uri"
+                                                    },
+                                                    "plot": {
+                                                        "type": "string"
+                                                    },
+                                                    "rated": {
+                                                        "type": "string"
+                                                    },
+                                                    "boxoffice": {
+                                                        "type": "integer"
+                                                    },
+                                                    "imdbRating": {
+                                                        "type": "number"
+                                                    },
+                                                    "rottentomatoesRating": {
+                                                        "type": "string"
+                                                    },
+                                                    "metacriticRating": {
+                                                        "type": "string"
+                                                    },
+                                                    "id": {
+                                                        "type": "integer"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }

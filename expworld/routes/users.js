@@ -10,9 +10,15 @@ router.get('/', function (req, res, next) {
 });
 
 router.post("/register", function (req, res, next) {
-
   const email = req.body.email;
   const password = req.body.password;
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+  const dob = req.body.dob;
+  const address = req.body.address;
+
+  const saltRounds = 10;
+
   if (!email || !password) {
     res.status(400).json({
       error: true,
@@ -20,26 +26,26 @@ router.post("/register", function (req, res, next) {
     });
     return;
   }
+
   const queryUsers = req.db.from("users").select("*").where("email", "=", email);
   queryUsers.then(users => {
     if (users.length > 0) {
       throw new Error("User already exists");
     }
 
-    // Insert user into DB
-    const saltRounds = 10;
     const hash = bcrypt.hashSync(password, saltRounds);
-    return req.db.from("users").insert({ email, hash });
+
+    return req.db.from("users").insert({ email, hash, firstName, lastName, dob, address });
   })
     .then(() => {
       console.log("Successfully inserted user");
+      res.status(200).json({ success: true, message: "User inserted successfully" });
     })
     .catch(e => {
       res.status(500).json({ success: false, message: e.message });
-    })
-
-
+    });
 });
+
 
 router.post("/login", function (req, res, next) {
   const email = req.body.email;

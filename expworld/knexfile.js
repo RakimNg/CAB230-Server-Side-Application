@@ -7,7 +7,7 @@ module.exports = {
   client: 'mysql2',
   connection: {
     host: '127.0.0.1',
-    database: 'world',
+    database: 'movies',
     user: 'root',
     // pwd for the virtual machine, account name is cab230 to login
     // password: 'Cab230!' 
