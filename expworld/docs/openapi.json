@@ -183,125 +183,145 @@
                 }
             }
         },
-        "/api/city": {
+        "/movies/data/{imdbID}": {
             "get": {
+                "summary": "Get movie data by IMDb ID",
                 "tags": [
-                    "query"
+                    "Movies"
                 ],
-                "summary": "List cities and provinces",
-                "description": "Full listing of cities and their provinces for the database",
-                "operationId": "listCitiesAndDistricts",
-                "produces": [
-                    "application/json"
+                "parameters": [
+                    {
+                        "name": "imdbID",
+                        "in": "path",
+                        "description": "IMDb ID of the movie",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "Error": {
-                                    "type": "string",
-                                    "enum": [
-                                        "true",
-                                        "false"
-                                    ]
-                                },
-                                "Message": {
-                                    "type": "string",
-                                    "enum": [
-                                        "Success",
-                                        "Failure"
-                                    ]
-                                },
-                                "City": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "name": {
-                                                "type": "string"
-                                            },
-                                            "district": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/city/update": {
-            "post": {
-                "tags": [
-                    "query"
-                ],
-                "summary": "Update city population",
-                "description": "Update the population of a city in the database",
-                "operationId": "updateCityPopulation",
-                "consumes": [
-                    "application/json"
-                ],
-                "requestBody": {
-                    "description": "City population update parameters",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "Name": {
-                                        "type": "string"
-                                    },
-                                    "CountryCode": {
-                                        "type": "string"
-                                    },
-                                    "Population": {
-                                        "type": "integer"
-                                    }
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Movie"
                                 },
                                 "example": {
-                                    "Name": "Shanghai",
-                                    "CountryCode": "CHN",
-                                    "Population": 12345678
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Successful update",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "message": {
-                                    "type": "string"
+                                    "title": "Star Trek: First Contact",
+                                    "year": 1996,
+                                    "runtime": 111,
+                                    "genres": [
+                                        "Action",
+                                        "Adventure",
+                                        "Drama"
+                                    ],
+                                    "country": "United States",
+                                    "principals": [
+                                        {
+                                            "id": "nm0005772",
+                                            "category": "cinematographer",
+                                            "name": "Matthew F. Leonetti",
+                                            "characters": []
+                                        },
+                                        {
+                                            "id": "nm0001772",
+                                            "category": "actor",
+                                            "name": "Patrick Stewart",
+                                            "characters": [
+                                                "Picard"
+                                            ]
+                                        },
+                                        {
+                                            "id": "nm0000408",
+                                            "category": "actor",
+                                            "name": "Jonathan Frakes",
+                                            "characters": [
+                                                "Riker"
+                                            ]
+                                        },
+                                        {
+                                            "id": "nm0000653",
+                                            "category": "actor",
+                                            "name": "Brent Spiner",
+                                            "characters": [
+                                                "Data"
+                                            ]
+                                        },
+                                        {
+                                            "id": "nm0000996",
+                                            "category": "actor",
+                                            "name": "LeVar Burton",
+                                            "characters": [
+                                                "Geordi"
+                                            ]
+                                        },
+                                        {
+                                            "id": "nm0734472",
+                                            "category": "writer",
+                                            "name": "Gene Roddenberry",
+                                            "characters": []
+                                        },
+                                        {
+                                            "id": "nm0075834",
+                                            "category": "writer",
+                                            "name": "Rick Berman",
+                                            "characters": []
+                                        },
+                                        {
+                                            "id": "nm0103804",
+                                            "category": "writer",
+                                            "name": "Brannon Braga",
+                                            "characters": []
+                                        },
+                                        {
+                                            "id": "nm0601822",
+                                            "category": "writer",
+                                            "name": "Ronald D. Moore",
+                                            "characters": []
+                                        },
+                                        {
+                                            "id": "nm0000025",
+                                            "category": "composer",
+                                            "name": "Jerry Goldsmith",
+                                            "characters": []
+                                        }
+                                    ],
+                                    "ratings": [
+                                        {
+                                            "source": "Internet Movie Database",
+                                            "value": 7.6
+                                        }
+                                    ],
+                                    "boxoffice": 92027888,
+                                    "poster": "https://m.media-amazon.com/images/M/MV5BYzMzZmE3MTItODYzYy00YWI5LWFkNWMtZTY5NmU2MDkxYWI1XkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_SX300.jpg",
+                                    "plot": "The Borg travel back in time intent on preventing Earth's first contact with an alien species. Captain Picard and his crew pursue them to ensure that Zefram Cochrane makes his maiden flight reaching warp speed."
                                 }
                             }
                         }
                     },
                     "400": {
                         "description": "Bad request",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "message": {
-                                    "type": "string"
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "example": {
+                                    "error": true,
+                                    "message": "Invalid IMDb ID"
                                 }
                             }
                         }
                     },
-                    "500": {
-                        "description": "Database error",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "message": {
-                                    "type": "string"
+                    "404": {
+                        "description": "Movie not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": true,
+                                    "message": "Movie not found"
                                 }
                             }
                         }
@@ -309,108 +329,146 @@
                 }
             }
         },
-        "/api/movie/ID/{imdbID}": {
+        "/movies/search": {
             "get": {
                 "tags": [
-                    "query"
+                    "Movies"
                 ],
-                "summary": "List movies",
-                "description": "Get a list of movies",
-                "operationId": "listMovies",
-                "produces": [
-                    "application/json"
+                "summary": "Search for movies",
+                "parameters": [
+                    {
+                        "name": "primaryTitle",
+                        "in": "query",
+                        "description": "Search keyword for movie titles",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "description": "Search movie year",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Filter the movies using page number",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
                 ],
-                "requestBody": {
-                    "description": "City population update parameters",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "imdbID": {
-                                        "type": "string"
-                                    }
-                                },
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
                                 "example": {
-                                    "imdbID": "Shanghai"
+                                    "data": [
+                                        {
+                                            "title": "Rush",
+                                            "year": 1991,
+                                            "imdbID": "tt0102820",
+                                            "imdbRating": 6.7,
+                                            "rottenTomatoesRating": 71,
+                                            "metacriticRating": 66,
+                                            "classification": "R"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": true,
+                                    "message": "Invalid request"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": true,
+                                    "message": "Error in MySQL query"
                                 }
                             }
                         }
                     }
-                },
+                }
+            }
+        },
+        "/people/{ID}": {
+            "get": {
+                "summary": "Get people data by ID",
+                "tags": [
+                    "People"
+                ],
+                "parameters": [
+                    {
+                        "name": "ID",
+                        "in": "path",
+                        "description": "ID of the person",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
+                        "description": "Successful response",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "Error": {
-                                            "type": "boolean"
-                                        },
-                                        "Message": {
-                                            "type": "string"
-                                        },
-                                        "Movie": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "tconst": {
-                                                        "type": "string"
-                                                    },
-                                                    "titleType": {
-                                                        "type": "string"
-                                                    },
-                                                    "primaryTitle": {
-                                                        "type": "string"
-                                                    },
-                                                    "originalTitle": {
-                                                        "type": "string"
-                                                    },
-                                                    "year": {
-                                                        "type": "integer"
-                                                    },
-                                                    "runtimeMinutes": {
-                                                        "type": "integer"
-                                                    },
-                                                    "genres": {
-                                                        "type": "string"
-                                                    },
-                                                    "country": {
-                                                        "type": "string"
-                                                    },
-                                                    "poster": {
-                                                        "type": "string",
-                                                        "format": "uri"
-                                                    },
-                                                    "plot": {
-                                                        "type": "string"
-                                                    },
-                                                    "rated": {
-                                                        "type": "string"
-                                                    },
-                                                    "boxoffice": {
-                                                        "type": "integer"
-                                                    },
-                                                    "imdbRating": {
-                                                        "type": "number"
-                                                    },
-                                                    "rottentomatoesRating": {
-                                                        "type": "string"
-                                                    },
-                                                    "metacriticRating": {
-                                                        "type": "string"
-                                                    },
-                                                    "id": {
-                                                        "type": "integer"
-                                                    }
-                                                }
-                                            }
+                                "example": {
+                                    "name": "Patrick Stewart",
+                                    "birthYear": 1940,
+                                    "deathYear": null,
+                                    "roles": [
+                                        {
+                                            "movieName": "Star Trek: First Contact",
+                                            "movieId": "tt0117731",
+                                            "category": "actor",
+                                            "characters": [
+                                                "Picard"
+                                            ],
+                                            "imdbRating": 7.6
                                         }
-                                    }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": true,
+                                    "message": "Invalid ID"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Person not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": true,
+                                    "message": "Person not found"
                                 }
                             }
                         }
