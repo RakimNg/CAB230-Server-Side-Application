@@ -20,7 +20,7 @@ var usersRouter = require("./routes/users");
 
 var app = express();
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 app.use(cors());
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
