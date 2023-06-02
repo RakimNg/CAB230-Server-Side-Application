@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const bcrypt = require('bcrypt');
 const authorization = require("../middleware/authorization.js");
+const logout = require("../middleware/logout.js")
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 /* GET users listing. */
@@ -9,6 +10,17 @@ router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
+
+router.post("/refresh", authorization, function (req, res, next) {
+  // const jwt = authorization.jwt
+
+
+});
+router.post("/logout", logout, function (req, res, next) {
+  // const jwt = authorization.jwt
+
+
+});
 router.post("/register", function (req, res, next) {
   const email = req.body.email;
   const password = req.body.password;
