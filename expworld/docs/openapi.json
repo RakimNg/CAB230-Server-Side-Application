@@ -360,7 +360,7 @@
                         "description": "Filter the movies using page number",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
                 ],
@@ -412,19 +412,22 @@
         },
         "/people/{ID}": {
             "get": {
-                "summary": "Get people data by ID",
                 "tags": [
                     "People"
                 ],
+                "summary": "Get details of a person",
                 "parameters": [
                     {
                         "name": "ID",
                         "in": "path",
-                        "description": "ID of the person",
+                        "description": "The ID of the person",
                         "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
                     }
                 ],
                 "responses": {
@@ -451,19 +454,19 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Bad request",
+                    "401": {
+                        "description": "Unauthorized",
                         "content": {
                             "application/json": {
                                 "example": {
                                     "error": true,
-                                    "message": "Invalid ID"
+                                    "message": "Invalid token"
                                 }
                             }
                         }
                     },
                     "404": {
-                        "description": "Person not found",
+                        "description": "Not found",
                         "content": {
                             "application/json": {
                                 "example": {
@@ -472,8 +475,33 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": true,
+                                    "message": "Error in MySQL query"
+                                }
+                            }
+                        }
                     }
                 }
+            }
+        }
+    },
+    "security": [
+        {
+            "BearerAuth": []
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
             }
         }
     }

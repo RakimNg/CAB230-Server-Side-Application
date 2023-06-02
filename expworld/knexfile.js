@@ -10,7 +10,7 @@ module.exports = {
     database: 'movies',
     user: 'root',
     // pwd for the virtual machine, account name is cab230 to login
-    // password: 'Cab230!' 
+    // password: 'Cab230!'
     password: 'Wsz20020325+++'
 
   }
