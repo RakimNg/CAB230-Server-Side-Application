@@ -89,17 +89,12 @@ router.get("/movies/data/:imdbID", function (req, res, next) {
 });
 
 
-router.get("/people/:ID", authorization, function (req, res, next) {
-  if (!req.headers.authorization) {
-    return res.status(401).json({ Error: true, Message: "Unauthorized" });
+router.get("/people/:id", authorization, function (req, res, next) {
+  console.log(authorization)
+  if (authorization === 401) {
+    return res.status(401).json({ Error: true, Message: "Unauthorizedsdad" });
   }
-  console.log(authorization);
-  if (!req.headers.authorization) {
-    console.log("no header");
-
-    return res.status(401).json({ Error: true, Message: "Unauthorized" });
-  }
-  const nconst = req.params.ID;
+  const nconst = req.params.id;
 
 
   req.db

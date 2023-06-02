@@ -25,7 +25,7 @@
         }
     ],
     "paths": {
-        "/users/login": {
+        "/user/login": {
             "post": {
                 "tags": [
                     "Authentication"
@@ -60,8 +60,8 @@
                     }
                 },
                 "responses": {
-                    "201": {
-                        "description": "Successful registration",
+                    "200": {
+                        "description": "Successful login",
                         "schema": {
                             "type": "object",
                             "properties": {
@@ -96,7 +96,7 @@
                 }
             }
         },
-        "/users/register": {
+        "/user/register": {
             "post": {
                 "tags": [
                     "Authentication"
@@ -410,7 +410,7 @@
                 }
             }
         },
-        "/people/{ID}": {
+        "/people/{id}": {
             "get": {
                 "tags": [
                     "People"
@@ -418,7 +418,7 @@
                 "summary": "Get details of a person",
                 "parameters": [
                     {
-                        "name": "ID",
+                        "name": "id",
                         "in": "path",
                         "description": "The ID of the person",
                         "required": true,

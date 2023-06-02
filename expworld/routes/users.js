@@ -39,7 +39,7 @@ router.post("/register", function (req, res, next) {
   })
     .then(() => {
       console.log("Successfully inserted user");
-      res.status(200).json({ success: true, message: "User inserted successfully" });
+      res.status(201).json({ success: true, message: "User inserted successfully" });
     })
     .catch(e => {
       res.status(500).json({ success: false, message: e.message });
@@ -47,7 +47,7 @@ router.post("/register", function (req, res, next) {
 });
 
 
-router.post("/login", function (req, res, next) {
+router.post("/login", authorization, function (req, res, next) {
   const email = req.body.email;
   const password = req.body.password;
 
@@ -59,6 +59,7 @@ router.post("/login", function (req, res, next) {
     });
     return;
   }
+
   const queryUsers = req.db.from("users").select("*").where("email", "=", email);
   queryUsers
     .then(users => {

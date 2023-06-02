@@ -37,7 +37,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/user", usersRouter);
 app.get("/knex", function (req, res, next) {
   req.db.raw("SELECT VERSION()")
     .then((version) => console.log(version[0][0]))

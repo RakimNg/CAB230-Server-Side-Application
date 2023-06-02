@@ -3,8 +3,8 @@ module.exports = function (req, res, next) {
     if (!("authorization" in req.headers)
         || !req.headers.authorization.match(/^Bearer /)
     ) {
-        res.status(401).json({ error: true, message: "Authorization header ('Bearer token') not found" });
-        return;
+        // return res.status(401).json({ error: true, message: "Authorization header ('Bearer token') not found" });
+        return res.sendStatus(401);
     }
     const token = req.headers.authorization.replace(/^Bearer /, "");
     try {
