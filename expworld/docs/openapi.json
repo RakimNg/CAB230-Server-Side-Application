@@ -96,6 +96,59 @@
                 }
             }
         },
+        "/user/{email}/profile": {
+            "get": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Get user profile by email",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "email",
+                        "schema": {
+                            "type": "string",
+                            "format": "email"
+                        },
+                        "required": true,
+                        "description": "Email address of the user"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "email": {
+                                            "type": "string",
+                                            "format": "email",
+                                            "example": "mike@gmail.com"
+                                        },
+                                        "firstName": {
+                                            "type": "string",
+                                            "example": "Michael"
+                                        },
+                                        "lastName": {
+                                            "type": "string",
+                                            "example": "Jordan"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
         "/user/register": {
             "post": {
                 "tags": [

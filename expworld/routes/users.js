@@ -10,7 +10,35 @@ router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
+// router.get("/:email/profile", authorization, function (req, res, next) {
 
+// });
+router.get("/:email/profile", authorization, function (req, res, next) {
+  const email = req.params.email;
+  console.log("email is: " + email);
+
+  // Retrieve the data from the database
+  req.db.from("users")
+    .select("email", "firstName", "lastName")
+    .where("email", "=", email)
+    .first()
+    .then((result) => {
+      if (result) {
+        const data = {
+          email: result.email,
+          firstName: result.firstName,
+          lastName: result.lastName,
+        };
+        res.json(data); // Return the data as JSON response
+      } else {
+        res.status(404).json({ error: "User not found" });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({ error: "Internal server error" });
+    });
+});
 router.post("/refresh", authorization, function (req, res, next) {
   // const jwt = authorization.jwt
 

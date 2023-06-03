@@ -14,13 +14,15 @@ logger.token('res', (req, res) => {
 })
 const options = require("./knexfile.js");
 const knex = require("knex")(options);
-
+var app = express();
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 
-var app = express();
+const peopleRouter = require("./routes/people.js");
+
+
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
+// app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 app.use(cors());
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -36,8 +38,10 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/", indexRouter);
+app.use("/movies", indexRouter);
+
 app.use("/user", usersRouter);
+app.use("/people", peopleRouter);
 app.get("/knex", function (req, res, next) {
   req.db.raw("SELECT VERSION()")
     .then((version) => console.log(version[0][0]))
@@ -48,7 +52,8 @@ app.get("/knex", function (req, res, next) {
 
   res.send("Version Logged successfully");
 });
-
+app.use("/", swaggerUI.serve);
+app.get("/", swaggerUI.setup(swaggerDocument));
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

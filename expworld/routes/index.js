@@ -3,40 +3,16 @@ var router = express.Router();
 const authorization = require("../middleware/authorization.js");
 
 /* GET home page. */
+// router.get("/", function (req, res, next) {
+//   res.render("index", { title: "Express" });
+// });
+
+
 router.get("/", function (req, res, next) {
-  res.render("index", { title: "Express" });
+  res.send('respond with a resource');
 });
 
-
-
-router.post("/api/city/update", authorization, function (req, res, next) {
-  // const jwt = authorization.jwt
-  if (!req.body.Name || !req.body.CountryCode || !req.body.Population) {
-    res.status(400).json({ message: `Error updating population` });
-    console.log(`Error on request body:`, JSON.stringify(req.body));
-
-  }
-  else {
-    const filter = {
-      "Name": req.body.Name,
-      "CountryCode": req.body.CountryCode
-    };
-    const pop = {
-      "Population": req.body.Population
-    };
-    req.db('city').where(filter).update(pop)
-      .then(_ => {
-        res.status(201).json({ message: `Successful update ${req.body.Name}` });
-        console.log(`successful population update:`, JSON.stringify(filter));
-      }).catch(error => {
-        res.status(500).json({ message: 'Database error - not updated' });
-      });
-
-  }
-
-});
-
-router.get("/movies/data/:imdbID", function (req, res, next) {
+router.get("/data/:imdbID", function (req, res, next) {
   req.db
     .from("basics")
     .select()
@@ -89,103 +65,12 @@ router.get("/movies/data/:imdbID", function (req, res, next) {
 });
 
 
-router.get("/people/:id", authorization, function (req, res, next) {
-  console.log(authorization)
-  if (authorization === 401) {
-    return res.status(401).json({ Error: true, Message: "Unauthorizedsdad" });
-  }
-  const nconst = req.params.id;
 
-
-  req.db
-    .from("Names")
-    .select("birthYear", "deathYear", "primaryName")
-    .where("nconst", "=", nconst)
-    .first()
-    .then((nameRow) => {
-      if (!nameRow) {
-        return res.json({ Error: true, Message: "Name not found" });
-      }
-
-      req.db
-        .from("principals")
-        .select("tconst", "category", "characters")
-        .where("nconst", "=", nconst)
-        .then((principalRows) => {
-          if (principalRows.length === 0) {
-            const response = {
-              name: nameRow.primaryName,
-              birthYear: nameRow.birthYear,
-              deathYear: nameRow.deathYear,
-              roles: [],
-            };
-
-            return res.json({
-              name: nameRow.primaryName,
-              birthYear: nameRow.birthYear,
-              deathYear: nameRow.deathYear,
-              roles: []
-            });
-          }
-
-          const tconsts = principalRows.map((row) => row.tconst);
-
-          req.db
-            .from("basics")
-            .select("primaryTitle", "tconst", "imdbRating")
-            .whereIn("tconst", tconsts)
-            .then((basicsRows) => {
-              const movies = principalRows.map((principalRow) => {
-                const movie = basicsRows.find((basicsRow) => basicsRow.tconst === principalRow.tconst);
-                let characters = [];
-                if (principalRow.characters) {
-                  characters = JSON.parse(principalRow.characters);
-
-                }
-
-                return {
-                  movieName: movie.primaryTitle,
-                  movieId: movie.tconst,
-                  category: principalRow.category,
-                  characters,
-                  imdbRating: movie.imdbRating,
-                };
-              });
-
-              const response = {
-                name: nameRow.primaryName,
-                birthYear: nameRow.birthYear,
-                deathYear: nameRow.deathYear,
-                roles: movies,
-              };
-
-              res.json({
-                name: nameRow.primaryName,
-                birthYear: nameRow.birthYear,
-                deathYear: nameRow.deathYear,
-                roles: movies
-              });
-            })
-            .catch((err) => {
-              console.log(err);
-              res.json({ Error: true, Message: "Error in MySQL query" });
-            });
-        })
-        .catch((err) => {
-          console.log(err);
-          res.json({ Error: true, Message: "Error in MySQL query" });
-        });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.json({ Error: true, Message: "Error in MySQL query" });
-    });
-});
 
 
 // authorization,
 
-router.get("/movies/search", function (req, res, next) {
+router.get("/search", function (req, res, next) {
   let name = "";
   let year = "";
   let page = 1; // Current page number, default: 1
