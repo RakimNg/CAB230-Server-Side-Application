@@ -1,11 +1,8 @@
 var express = require("express");
 var router = express.Router();
-const authorization = require("../middleware/authorization.js");
 
-/* GET home page. */
-// router.get("/", function (req, res, next) {
-//   res.render("index", { title: "Express" });
-// });
+
+
 
 
 router.get("/", function (req, res, next) {
@@ -68,13 +65,13 @@ router.get("/data/:imdbID", function (req, res, next) {
 
 
 
-// authorization,
+
 
 router.get("/search", function (req, res, next) {
   let name = "";
   let year = "";
-  let page = 1; // Current page number, default: 1
-  let limit = 100; // Number of records per page, default: 100
+  let page = 1;
+  let limit = 100;
   let prevPage = null;
   let nextPage = null;
   if (req.query.primaryTitle) {
@@ -83,7 +80,7 @@ router.get("/search", function (req, res, next) {
   if (req.query.page) {
     page = parseInt(req.query.page);
   }
-  let offset = (page - 1) * limit; // Calculate the offset for pagination
+  let offset = (page - 1) * limit;
   console.log(page);
   if (req.query.year) {
     year = req.query.year;
@@ -91,7 +88,7 @@ router.get("/search", function (req, res, next) {
   }
   console.log(name);
 
-  let totalRecords = 0; // Variable to hold the total number of records
+  let totalRecords = 0;
 
   req.db
     .count("tconst as total")
@@ -101,7 +98,7 @@ router.get("/search", function (req, res, next) {
     .then((result) => {
       totalRecords = result[0].total;
 
-      let totalPages = Math.ceil(totalRecords / limit); // Calculate the total number of pages
+      let totalPages = Math.ceil(totalRecords / limit);
       if (page != totalPages) {
         nextPage = page + 1;
       }
@@ -118,11 +115,7 @@ router.get("/search", function (req, res, next) {
         .offset(offset)
         .then((rows) => {
           if (page > totalPages) {
-            // if (totalPages === 1) {
-            //   nextPage = null;
-            //   prevPage = lastPage - 1;
 
-            // }
             res.json({
 
               data: [],
@@ -149,7 +142,7 @@ router.get("/search", function (req, res, next) {
                 rottenTomatoesRating: row.rottentomatoesRating,
                 metacriticRating: row.metacriticRating,
                 classification: row.rated
-                // Add more columns as needed
+
               };
             });
             const pagination = {
@@ -175,7 +168,7 @@ router.get("/search", function (req, res, next) {
               TotalPages: totalPages,
               CurrentPage: page,
               TotalRecords: totalRecords,
-            }); // Handle the case when no rows are returned
+            });
           }
         })
         .catch((err) => {

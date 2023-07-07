@@ -5,14 +5,11 @@ router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
 router.get("/:id", authorization, function (req, res, next) {
-    // console.log(authorization)
-    // if (authorization === 401) {
-    //     return res.status(401).json({ Error: true, Message: "Unauthorizedsdad" });
-    // }
+
     const nconst = req.params.id;
     console.log("id is:" + nconst)
 
-    req.db.from("Names")
+    req.db.from("names")
         .select("birthYear", "deathYear", "primaryName")
         .where("nconst", "=", nconst)
         .first()

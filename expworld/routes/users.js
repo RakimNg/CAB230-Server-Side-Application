@@ -2,25 +2,20 @@ var express = require('express');
 var router = express.Router();
 const bcrypt = require('bcrypt');
 const authorization = require("../middleware/authorization.js");
-const logout = require("../middleware/logout.js")
 const jwt = require('jsonwebtoken');
-const refresh = require('../middleware/refresh.js');
 const JWT_SECRET = process.env.JWT_SECRET;
-/* GET users listing. */
+
 router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
-// router.get("/:email/profile", authorization, function (req, res, next) {
 
-// });
 router.route("/:email/profile")
   .all(authorization)
   .get(function (req, res, next) {
     const email = req.params.email;
     console.log("email is: " + email);
 
-    // Retrieve the data from the database
     req.db.from("users")
       .select("email", "firstName", "lastName")
       .where("email", "=", email)
@@ -32,7 +27,7 @@ router.route("/:email/profile")
             firstName: result.firstName,
             lastName: result.lastName,
           };
-          res.json(data); // Return the data as JSON response
+          res.json(data);
         } else {
           res.status(404).json({ error: "User not found" });
         }
@@ -73,7 +68,7 @@ router.route("/:email/profile")
   });
 
 router.post("/logout", authorization, function (req, res, next) {
-  // const jwt = authorization.jwt
+
 
 
 });
@@ -153,7 +148,7 @@ router.post("/login", function (req, res, next) {
   const email = req.body.email;
   const password = req.body.password;
 
-  // Verify body
+
   if (!email || !password) {
     return res.status(400).json({
       error: true,
@@ -211,7 +206,6 @@ router.post("/login", function (req, res, next) {
             }
           })
           .catch(error => {
-            // Handle any potential errors
             console.error(error);
             return res.status(500).json({
               error: true,
@@ -221,7 +215,6 @@ router.post("/login", function (req, res, next) {
       }
     })
     .catch(error => {
-      // Handle any potential errors
       console.error(error);
       return res.status(500).json({
         error: true,
